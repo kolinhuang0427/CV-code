@@ -1,9 +1,3 @@
-"""
-Homework 5
-Submission Functions
-"""
-
-# import packages here
 import numpy as np
 import scipy
 from numpy.linalg import svd
@@ -12,7 +6,7 @@ import cv2
 from scipy.signal import correlate2d
 
 """
-Q3.1.1 Eight Point Algorithm
+Eight Point Algorithm
        [I] pts1, points in image 1 (Nx2 matrix)
            pts2, points in image 2 (Nx2 matrix)
            M, scalar value computed as max(H1,W1)
@@ -52,7 +46,7 @@ def eight_point(pts1, pts2, M):
     return helper.refineF(F, pts1, pts2)
 
 """
-Q3.1.2 Epipolar Correspondences
+Epipolar Correspondences
        [I] im1, image 1 (H1xW1 matrix)
            im2, image 2 (H2xW2 matrix)
            F, fundamental matrix from image 1 to image 2 (3x3 matrix)
@@ -76,12 +70,14 @@ def epipolar_correspondences(im1, im2, F, pts1):
         y_vals = np.arange(max(0, pt1[1] - search_range), min(im2.shape[0], pt1[1] + search_range))
         x_vals = (epipolar_line[2] -epipolar_line[1] * y_vals) / epipolar_line[0] 
 
-        if pt1[0] - half_w >= 0 and pt1[0] + half_w < im1.shape[1] and pt1[1] - half_w >= 0 and pt1[1] + half_w < im1.shape[0]:
-            patch1 = im1[pt1[1]-half_w:pt1[1]+half_w+1, pt1[0]-half_w:pt1[0]+half_w+1]
+        pt1_x = int(pt1[0])
+        pt1_y = int(pt1[1])
+
+        if pt1_x - half_w >= 0 and pt1_x + half_w < im1.shape[1] and pt1_y - half_w >= 0 and pt1_y + half_w < im1.shape[0]:
+            patch1 = im1[pt1_y - half_w:pt1_y + half_w + 1, pt1_x - half_w:pt1_x + half_w + 1]
 
         for y2, x2 in zip(y_vals.astype(int), x_vals.astype(int)):
             if x2 < half_w or x2 >= im2.shape[1] - half_w or y2 < half_w or y2 >= im2.shape[0] - half_w:
-                #print(f"Skipping point {pt1} due to 1111.")
                 continue
             
             patch2 = im2[y2-half_w:y2+half_w+1, x2-half_w:x2+half_w+1]
@@ -101,7 +97,7 @@ def epipolar_correspondences(im1, im2, F, pts1):
     return pts2
 
 """
-Q3.1.3 Essential Matrix
+Essential Matrix
        [I] F, the fundamental matrix (3x3 matrix)
            K1, camera matrix 1 (3x3 matrix)
            K2, camera matrix 2 (3x3 matrix)
@@ -111,7 +107,7 @@ def essential_matrix(F, K1, K2):
     return K2.T @ F @ K1
 
 """
-Q3.1.4 Triangulation
+Triangulation
        [I] P1, camera projection matrix 1 (3x4 matrix)
            pts1, points in image 1 (Nx2 matrix)
            P2, camera projection matrix 2 (3x4 matrix)
@@ -144,7 +140,7 @@ def triangulate(P1, pts1, P2, pts2):
 
 
 """
-Q3.2.1 Image Rectification
+Image Rectification
        [I] K1 K2, camera matrices (3x3 matrix)
            R1 R2, rotation matrices (3x3 matrix)
            t1 t2, translation vectors (3x1 matrix)
@@ -188,7 +184,7 @@ def rectify_pair(K1, K2, R1, R2, t1, t2):
     return M1, M2, K1p, K2p, R1p, R2p, t1p, t2p
 
 """
-Q3.2.2 Disparity Map
+Disparity Map
        [I] im1, image 1 (H1xW1 matrix)
            im2, image 2 (H2xW2 matrix)
            max_disp, scalar maximum disparity value
@@ -230,7 +226,7 @@ def get_disparity(im1, im2, max_disp, win_size):
 
 
 """
-Q3.2.3 Depth Map
+Depth Map
        [I] dispM, disparity map (H1xW1 matrix)
            K1 K2, camera matrices (3x3 matrix)
            R1 R2, rotation matrices (3x3 matrix)
@@ -259,23 +255,23 @@ def get_depth(dispM, K1, K2, R1, R2, t1, t2):
 
 
 """
-Q3.3.1 Camera Matrix Estimation
+Camera Matrix Estimation
        [I] x, 2D points (Nx2 matrix)
            X, 3D points (Nx3 matrix)
        [O] P, camera matrix (3x4 matrix)
 """
 def estimate_pose(x, X):
-    # replace pass by your implementation
+    # to be implemented 
     pass
 
 
 """
-Q3.3.2 Camera Parameter Estimation
+Camera Parameter Estimation
        [I] P, camera matrix (3x4 matrix)
        [O] K, camera intrinsics (3x3 matrix)
            R, camera extrinsics rotation (3x3 matrix)
            t, camera extrinsics translation (3x1 matrix)
 """
 def estimate_params(P):
-    # replace pass by your implementation
+    # to be implemented 
     pass
